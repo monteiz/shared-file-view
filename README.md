@@ -62,5 +62,3 @@ SharedFileView is built upon the work of several open-source projects and contri
 - Allen Luce ([@allenluce](https://github.com/allenluce)), for creating the [`mmap-object`](https://github.com/allenluce/mmap-object) package that inspired SharedFileView.
 
 Without the the contributions of Seth Heeren and the pioneering work of Allen Luce, SharedFileView would not be possible. We are grateful for their efforts and for making their work available under the MIT License.
-
-Thank you to all of the open-source contributors and communities that make projects like SharedFileView possible!
