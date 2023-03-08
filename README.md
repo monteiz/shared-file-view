@@ -6,11 +6,6 @@ SharedFileView is a Node.js add-on that loads a file into a shared memory segmen
 
 SharedFileView is designed for speed and minimal memory usage. By using shared memory, SharedFileView eliminates the need to copy data between processes, resulting in blazing fast performance. Additionally, SharedFileView uses the minimum memory allocation possible to load the text file into memory, ensuring that your system resources are used efficiently.
 
-This module maps a Javascript array into shared memory for
-simultaneous access by different Node processes running on the same
-machine. Shared memory is loaded
-via [mmap](https://en.wikipedia.org/wiki/Mmap).
-
 ## Requirements
 
 Binaries are provided for OSX and Linux for various node versions
