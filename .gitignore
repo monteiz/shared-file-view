@@ -1,0 +1,8 @@
+build/
+lib/
+node_modules/
+*~
+lib/shared-file-view.node
+.DS_Store
+.vscode/
+build/

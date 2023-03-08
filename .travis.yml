@@ -1,0 +1,13 @@
+sudo: true
+dist: trusty
+language: node_js
+compiler: [ clang ]
+cache: { directories: [ node_modules ] }
+os: [ linux, osx ]
+node_js: [ '14', '13', '12', '11', '10', '9', '8', '7', '6' ]
+addons:
+  apt:
+    sources: [ boost-latest,  ubuntu-toolchain-r-test ]
+    packages: [ g++-4.9, libboost1.55-all-dev ]
+install:
+  - npm install --build-from-source
