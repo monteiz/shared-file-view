@@ -20,7 +20,7 @@ __asm__(".symver memcpy,memcpy@GLIBC_2.2.5");
 
 #if BOOST_VERSION < 108100
 #pragma message("Found boost version " BOOST_PP_STRINGIZE(BOOST_LIB_VERSION))
-#error mmap-object needs at least version 1_81 to maintain compatibility.
+#error shared-file-view needs at least version 1_81 to maintain compatibility.
 #endif
 
 // For Win32 compatibility
