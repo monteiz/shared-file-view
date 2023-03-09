@@ -20,7 +20,7 @@ jobs:
         id: boost
         with:
           version: 1.81.0
-          libraries: filesystem iostreams interprocess
+          libraries: filesystem iostreams
           configuration: Release
       - name: Checkout Repository
         uses: actions/checkout@v3
