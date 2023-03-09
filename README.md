@@ -20,7 +20,7 @@ npm install shared-file-view
 
 ### Creating a SharedFileView
 
-To create a SharedFileView for a file, use the `SharedFileView.Create` method. This method is synchronous, so you can pass a callback function as the second argument to be called when the SharedFileView is actually created.
+To create a SharedFileView for a file, use the `SharedFileView.Create` static method. This method is synchronous, so you can pass a callback function as the second argument to be called when the SharedFileView is actually created.
 
 ```js
 const { SharedFileView } = require("shared-file-view");
@@ -36,7 +36,7 @@ SharedFileView.Create("/path/to/file.txt", (err) => {
 
 ### Reading from an existing SharedFileView
 
-To retrieve an array of lines from a file, use the `SharedFileView.ArrayFrom` method. This method returns a JavaScript array that you can use to access any line of the file.
+To retrieve an array of lines from a file, use the `SharedFileView.ArrayFrom` constructor. This method returns a JavaScript array that you can use to access any line of the file.
 
 ```js
 const { SharedFileView } = require("shared-file-view");
@@ -50,7 +50,7 @@ console.log(sharedFileView[1]); // Prints the second line of the file
 
 ### Checking if a SharedFileView Exists
 
-To check if a SharedFileView for a file has already been created, use the `SharedFileView.Exists` method. This method returns a boolean indicating whether the SharedFileView exists.
+To check if a SharedFileView for a file has already been created, use the `SharedFileView.Exists` static method. This method returns a boolean indicating whether the SharedFileView exists.
 
 ```js
 const { SharedFileView } = require("shared-file-view");
@@ -63,7 +63,7 @@ console.log(exists); // Prints true if a SharedFileView exists, false otherwise
 
 ### Removing a SharedFileView
 
-To remove a SharedFileView from memory and free up system resources, use the `SharedFileView.Remove` method.
+To remove a SharedFileView from memory and free up system resources, use the `SharedFileView.Remove` static method.
 
 ```js
 const { SharedFileView } = require("shared-file-view");
