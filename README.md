@@ -13,7 +13,7 @@ Follow [this guide](https://www.boost.org/doc/libs/1_81_0/more/getting_started/i
 ## Installation
 
 ```npm
-    npm install shared-file-view
+npm install shared-file-view
 ```
 
 ## Usage
