@@ -11,7 +11,7 @@
 		"module_path": "./lib",
 		"host": "https://github.com/monteiz/shared-file-view/releases/download/{version}"
 	},
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"author": "Luca Fagioli <monteiz@gmail.com>",
 	"repository": {
 		"type": "git",
