@@ -247,7 +247,7 @@ NAN_INDEX_GETTER(SharedFileView::IndexGetter)
 
   auto self = Nan::ObjectWrap::Unwrap<SharedFileView>(info.This());
 
-  if (index < 0 || index >= self->length)
+  if (index >= self->length)
   {
     info.GetReturnValue().SetUndefined();
     return;
