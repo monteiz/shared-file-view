@@ -1,4 +1,4 @@
-# SharedFileView
+# Shared File View
 
 > :warning: **This project is under construction**: Do not use it yet!
 
