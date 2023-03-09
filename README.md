@@ -18,6 +18,69 @@ Follow [this guide](https://www.boost.org/doc/libs/1_81_0/more/getting_started/i
     npm install shared-file-view
 ```
 
+## Usage
+
+### Creating a SharedFileView
+
+To create a SharedFileView for a file, use the `SharedFileView.Create` method. This method is synchronous, so you can pass a callback function as the second argument to be called when the SharedFileView is actually created.
+
+``` js
+const { SharedFileView } = require('addon-name');
+
+SharedFileView.Create('/path/to/file.txt', (err) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log('SharedFileView created');
+  }
+});
+```
+
+### Reading from an existing SharedFileView
+
+To retrieve an array of lines from a file, use the `SharedFileView.ArrayFrom` method. This method returns a JavaScript array that you can use to access any line of the file.
+
+``` js
+const { SharedFileView } = require('addon-name');
+
+const filePath = '/path/to/file.txt';
+const sharedFileView = new SharedFileView.ArrayFrom(filePath);
+
+console.log(sharedFileView[0]); // Prints the first line of the file
+console.log(sharedFileView[1]); // Prints the second line of the file
+```
+
+### Checking if a SharedFileView Exists
+
+To check if a SharedFileView for a file has already been created, use the `SharedFileView.Exists` method. This method returns a boolean indicating whether the SharedFileView exists.
+
+``` js
+const { SharedFileView } = require('addon-name');
+
+const filePath = '/path/to/file.txt';
+const exists = SharedFileView.Exists(filePath);
+
+console.log(exists); // Prints true if a SharedFileView exists, false otherwise
+
+```
+
+### Removing a SharedFileView
+
+To remove a SharedFileView from memory and free up system resources, use the `SharedFileView.Remove` method.
+
+``` js
+const { SharedFileView } = require('addon-name');
+
+const filePath = '/path/to/file.txt';
+SharedFileView.Remove(filePath, (err) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log('SharedFileView removed');
+  }
+});
+```
+
 ## License
 
 SharedFileView is licensed under the [MIT License](https://opensource.org/licenses/MIT). See the [`LICENSE`](LICENSE) file for details.
