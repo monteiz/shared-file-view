@@ -20,7 +20,7 @@ npm install shared-file-view
 
 ### Creating a SharedFileView
 
-To create a SharedFileView for a file, use the `SharedFileView.Create` static method. This method is synchronous, so you can pass a callback function as the second argument to be called when the SharedFileView is actually created.
+First create a SharedFileView for a file, using the `SharedFileView.Create` static method. This method is synchronous, so you can pass a callback function as the second argument to be called when the SharedFileView is actually created.
 
 ```js
 const { SharedFileView } = require("shared-file-view");
