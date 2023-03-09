@@ -89,4 +89,4 @@ I would like to thank the following individuals for their contributions to Share
 - Seth Heeren ([@sehe](https://github.com/sehe)), for providing the original approach that underlie SharedFileView.
 - Allen Luce ([@allenluce](https://github.com/allenluce)), for creating the [`mmap-object`](https://github.com/allenluce/mmap-object) package that inspired SharedFileView.
 
-Without the the contributions of Seth Heeren and the pioneering work of Allen Luce, SharedFileView would not be possible. We are grateful for their efforts and for making their work available under the MIT License.
+Without the the contributions of Seth Heeren and the pioneering work of Allen Luce, SharedFileView would not be possible. I am grateful for their efforts and for making their work available under the MIT License.
