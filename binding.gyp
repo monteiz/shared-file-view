@@ -8,8 +8,9 @@
             "-frtti"         # And this too.
         ],
         "include_dirs": [
-            "/usr/local/include",
-            "<!(node -e \"require('nan')\")",
+            # "/usr/local/include",
+            # "<!(node -e \"require('nan')\")",
+            "./node_modules/nan",
             "/home/runner/work/shared-file-view/boost"  # used by github workflows
         ],
         "libraries": [],

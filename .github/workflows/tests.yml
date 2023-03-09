@@ -15,6 +15,11 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Cache Boost
+        uses: actions/cache@v2
+        with:
+          path: "${{ runner.workspace }}/boost_*.tar.gz"
+          key: "boost-1.81.0"
       - name: Build Boost
         uses: egor-tensin/build-boost@v1
         id: boost
