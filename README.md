@@ -8,46 +8,14 @@ SharedFileView is designed for speed and minimal memory usage. By using shared m
 
 ## Requirements
 
-Binaries are provided for OSX and Linux for various node versions
-(check the releases page to see which). If a binary is not provided
-for your platform, you will need Boost and and a C++11 compliant
-compiler (like GCC 4.8 or better) to build the module.
+Boost libraries (^1.81) installed on the system. Installation will fail otherwise.
+
+Follow [this guide](https://www.boost.org/doc/libs/1_81_0/more/getting_started/index.html) to install it.
 
 ## Installation
 
 ```npm
     npm install shared-file-view
-```
-
-## Unit tests
-
-```npm
-    npm test
-```
-
-## Publishing a binary release
-
-To make a new binary release:
-
-- Edit package.json. Increment the `version` property.
-- `node-pre-gyp rebuild`
-- `node-pre-gyp package`
-- `node-pre-gyp-github publish`
-- `npm publish`
-
-You will need a `NODE_PRE_GYP_GITHUB_TOKEN` with `repo:status`,
-`repo_deployment` and `public_repo` access to the target repo. You'll
-also need write access to the npm repo.
-
-## MSVS build prerequisites
-
-Set up [Boost](http://www.boost.org/).
-
-Set BOOST_ROOT environment variable.
-
-```
-bootstrap
-b2 --build-type=complete
 ```
 
 ## License
