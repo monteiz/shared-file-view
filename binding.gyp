@@ -9,7 +9,8 @@
         ],
         "include_dirs": [
             "/usr/local/include",
-            "<!(node -e \"require('nan')\")"
+            "<!(node -e \"require('nan')\")",
+            "/home/runner/work/shared-file-view/boost"  # used by github workflows
         ],
         "libraries": [],
         "OTHER_CFLAGS": [  # for Mac builds
