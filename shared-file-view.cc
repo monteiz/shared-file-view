@@ -18,9 +18,9 @@ __asm__(".symver memcpy,memcpy@GLIBC_2.2.5");
 #include <fstream>
 #include <nan.h>
 
-#if BOOST_VERSION < 105500
+#if BOOST_VERSION < 108100
 #pragma message("Found boost version " BOOST_PP_STRINGIZE(BOOST_LIB_VERSION))
-#error mmap-object needs at least version 1_55 to maintain compatibility.
+#error mmap-object needs at least version 1_81 to maintain compatibility.
 #endif
 
 // For Win32 compatibility
@@ -59,12 +59,27 @@ public:
   void create()
   {
 
+    if (!fs::exists(file_full_path.c_str()))
+    {
+      std::ostringstream error_stream;
+      error_stream << "File " << file_full_path << " not found";
+      Nan::ThrowError(error_stream.str().c_str());
+      return;
+    }
+
     u_int64_t file_size = fs::file_size(file_full_path.c_str());
 
     shared_memory_object::remove(map_shared_memory_name.c_str());
     shared_memory_object shm(create_only, map_shared_memory_name.c_str(), read_write);
 
     shm.truncate(file_size);
+
+    mapped_region region(shm, read_write);
+
+    // Copy file content into mapped region
+    std::ifstream ifs(file_full_path.c_str(), std::ios::binary);
+    char *dst = static_cast<char *>(region.get_address());
+    ifs.read(dst, region.get_size());
 
     createIndex();
   }
@@ -83,9 +98,11 @@ public:
     index.push_back(position);
 
     shared_memory_object::remove(index_shared_memory_name.c_str());
+
     shared_memory_object shm(create_only, index_shared_memory_name.c_str(), read_write);
     shm.truncate(index.size() * sizeof(uint32_t));
     mapped_region region(shm, read_write);
+
     std::copy(index.begin(), index.end(), static_cast<uint32_t *>(region.get_address()));
   }
 
@@ -114,6 +131,18 @@ public:
     }
   }
 
+  bool remove()
+  {
+    try
+    {
+      return shared_memory_object::remove(map_shared_memory_name.c_str());
+    }
+    catch (const std::exception &ex)
+    {
+      return (false);
+    }
+  }
+
   std::string getLine(uint32_t n)
   {
 
@@ -123,7 +152,7 @@ public:
     uint32_t start_pos = index_data[n];
     uint32_t end_pos = index_data[n + 1];
 
-    return std::string(source_data + start_pos, end_pos - start_pos);
+    return std::string(source_data + start_pos, end_pos - start_pos - 1);
   }
 
 private:
@@ -134,9 +163,9 @@ private:
   mapped_region region_index;
 
   static NAN_METHOD(Create);
-  static NAN_METHOD(Open);
+  static NAN_METHOD(ArrayFrom);
   static NAN_METHOD(Exists);
-  static NAN_METHOD(Close);
+  static NAN_METHOD(Remove);
   static NAN_GETTER(LengthGetter);
   static NAN_INDEX_GETTER(IndexGetter);
   static NAN_INDEX_SETTER(IndexSetter);
@@ -150,10 +179,61 @@ private:
     static Nan::Persistent<v8::Function> my_constructor;
     return my_constructor;
   }
-  friend struct CloseWorker;
 };
 
-namespace bip = boost::interprocess;
+class ActionWorker : public Nan::AsyncWorker
+{
+public:
+  SharedFileView *sharedFileView;
+  std::string action;
+
+  ActionWorker(SharedFileView *sharedFileView, std::string action, Nan::Callback *callback)
+      : Nan::AsyncWorker(callback)
+  {
+
+    this->sharedFileView = sharedFileView;
+    this->action = action;
+  }
+
+  void Execute()
+  {
+    try
+    {
+      if (action == "create")
+      {
+
+        sharedFileView->create();
+      }
+      else if (action == "remove")
+      {
+        sharedFileView->remove();
+      }
+    }
+    catch (const std::exception &ex)
+    {
+      std::cerr << ex.what();
+      this->SetErrorMessage(ex.what());
+      return;
+    }
+  }
+
+  void HandleOKCallback()
+  {
+    Nan::HandleScope scope;
+    v8::Local<v8::Value> argv[] = {
+        Nan::Null()};
+    Nan::Call(callback->GetFunction(), Nan::GetCurrentContext()->Global(), 1, argv);
+  }
+
+  void HandleErrorCallback()
+  {
+    Nan::HandleScope scope;
+    v8::Local<v8::Value> argv[] = {
+        Nan::New(this->ErrorMessage()).ToLocalChecked(), // return error message
+    };
+    Nan::Call(callback->GetFunction(), Nan::GetCurrentContext()->Global(), 1, argv);
+  }
+};
 
 NAN_GETTER(SharedFileView::LengthGetter)
 {
@@ -197,40 +277,57 @@ NAN_INDEX_DELETER(SharedFileView::IndexDeleter)
   return;
 }
 
+NAN_INDEX_QUERY(SharedFileView::IndexQuery)
+{
+  // TODO
+}
+
 NAN_INDEX_ENUMERATOR(SharedFileView::IndexEnumerator)
 {
   // TODO
-  // info.GetReturnValue().Set(Nan::New<v8::Array>(v8::None));
 }
-
-#define INFO_METHOD(name, type, object)                               \
-  NAN_METHOD(SharedFileView::name)                                    \
-  {                                                                   \
-    auto self = Nan::ObjectWrap::Unwrap<SharedFileView>(info.This()); \
-    info.GetReturnValue().Set((type)self->object->name());            \
-  }
 
 NAN_METHOD(SharedFileView::Create)
 {
 
+  if (!info[0]->IsString())
+  {
+    return Nan::ThrowTypeError(Nan::New("Expected string").ToLocalChecked());
+  }
+
   std::string file_full_path = *Nan::Utf8String(info[0]);
 
   SharedFileView *d = new SharedFileView(file_full_path.c_str());
 
-  d->create();
+  Nan::AsyncQueueWorker(new ActionWorker(
+      d,
+      "create",
+      new Nan::Callback(info[1].As<v8::Function>())));
 }
 
-NAN_METHOD(SharedFileView::Open)
+NAN_METHOD(SharedFileView::ArrayFrom)
 {
+
+  if (!info[0]->IsString())
+  {
+    return Nan::ThrowError(Nan::New("Expected String").ToLocalChecked());
+  }
 
   std::string file_full_path = *Nan::Utf8String(info[0]);
 
-  SharedFileView *d = new SharedFileView(file_full_path.c_str());
+  try
+  {
 
-  d->open();
-
-  d->Wrap(info.This());
-  info.GetReturnValue().Set(info.This());
+    SharedFileView *d = new SharedFileView(file_full_path.c_str());
+    d->open();
+    d->Wrap(info.This());
+    info.GetReturnValue().Set(info.This());
+  }
+  catch (const std::exception &ex)
+  {
+    info.GetReturnValue().SetUndefined();
+    return;
+  }
 }
 
 NAN_METHOD(SharedFileView::Exists)
@@ -243,12 +340,26 @@ NAN_METHOD(SharedFileView::Exists)
   info.GetReturnValue().Set(d->exists());
 }
 
+NAN_METHOD(SharedFileView::Remove)
+{
+
+  std::string file_full_path = *Nan::Utf8String(info[0]);
+
+  SharedFileView *d = new SharedFileView(file_full_path.c_str());
+
+  Nan::AsyncQueueWorker(new ActionWorker(
+      d,
+      "remove",
+      new Nan::Callback(info[1].As<v8::Function>())));
+}
+
 v8::Local<v8::Function> SharedFileView::init_methods(v8::Local<v8::FunctionTemplate> f_tpl)
 {
-  // Nan::SetPrototypeMethod(f_tpl, "close", Close);
-
   auto inst = f_tpl->InstanceTemplate();
   inst->SetInternalFieldCount(1);
+
+  Nan::SetIndexedPropertyHandler(inst, IndexGetter, IndexSetter, IndexQuery, IndexDeleter, IndexEnumerator,
+                                 Nan::New<v8::String>("instance").ToLocalChecked());
 
   auto fun = Nan::GetFunction(f_tpl).ToLocalChecked();
   constructor().Reset(fun);
@@ -257,25 +368,16 @@ v8::Local<v8::Function> SharedFileView::init_methods(v8::Local<v8::FunctionTempl
 
 NAN_MODULE_INIT(SharedFileView::Init)
 {
-  // The mmap creator class
-  v8::Local<v8::FunctionTemplate> create_tpl = Nan::New<v8::FunctionTemplate>(Create);
-  create_tpl->SetClassName(Nan::New("CreateMmap").ToLocalChecked());
-  Nan::SetAccessor(create_tpl->InstanceTemplate(), Nan::New("length").ToLocalChecked(), SharedFileView::LengthGetter);
-  auto create_fun = init_methods(create_tpl);
-  Nan::Set(target, Nan::New("Create").ToLocalChecked(), create_fun);
 
-  // The mmap opener class
-  v8::Local<v8::FunctionTemplate> open_tpl = Nan::New<v8::FunctionTemplate>(Open);
-  open_tpl->SetClassName(Nan::New("OpenMmap").ToLocalChecked());
+  Nan::SetMethod(target, "Create", SharedFileView::Create);
+  Nan::SetMethod(target, "Exists", SharedFileView::Exists);
+  Nan::SetMethod(target, "Remove", SharedFileView::Remove);
+
+  v8::Local<v8::FunctionTemplate> open_tpl = Nan::New<v8::FunctionTemplate>(ArrayFrom);
+  open_tpl->SetClassName(Nan::New("SharedFileView").ToLocalChecked());
   Nan::SetAccessor(open_tpl->InstanceTemplate(), Nan::New("length").ToLocalChecked(), SharedFileView::LengthGetter);
   auto open_fun = init_methods(open_tpl);
-  Nan::Set(target, Nan::New("Open").ToLocalChecked(), open_fun);
-
-  // The mmap opener class
-  v8::Local<v8::FunctionTemplate> exists_tpl = Nan::New<v8::FunctionTemplate>(Exists);
-  exists_tpl->SetClassName(Nan::New("ExistsMmap").ToLocalChecked());
-  auto exists_fun = init_methods(exists_tpl);
-  Nan::Set(target, Nan::New("Exists").ToLocalChecked(), exists_fun);
+  Nan::Set(target, Nan::New("ArrayFrom").ToLocalChecked(), open_fun);
 }
 
 NODE_MODULE(sharedfileview, SharedFileView::Init)

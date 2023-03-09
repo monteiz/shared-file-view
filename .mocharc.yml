@@ -1,0 +1,4 @@
+# .mocharc.yml w/ parallel mode enabled
+ui: "bdd"
+parallel: true
+timeout: 2000

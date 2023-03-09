@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 /* global describe it before */
 /*
   This utility file is intended to run in a different process space
@@ -8,34 +8,50 @@
   allocators.
 */
 
-const binary = require('node-pre-gyp')
-const path = require('path')
-const mmap_obj_path = binary.find(path.resolve(path.join(__dirname, '../package.json')))
-const MmapObject = require(mmap_obj_path)
-const expect = require('chai').expect
+const binary = require("node-pre-gyp");
+const path = require("path");
+const sharedFileViewPath = binary.find(path.resolve(path.join(__dirname, "../package.json")));
+const SharedFileView = require(sharedFileViewPath);
+const expect = require("chai").expect;
 
-const BigKeySize = 1000
-const BiggerKeySize = 10000
+const testFilePath = path.join(__dirname, "..", "testdata", "random_strings.txt");
 
-describe('Interprocess', function () {
-  before(function () {
-    this.reader = new MmapObject.Open(process.env.TESTFILE)
-  })
-  it('reads a string', function () {
-    expect(this.reader.first).to.equal('value for first')
-  })
+describe("Instance functions from another process", function () {
+	it("get the array", function () {
+		const array = new SharedFileView.ArrayFrom(testFilePath);
+		expect(array.length).to.equal(10);
+	});
 
-  it('reads a string that was written twice', function () {
-    expect(this.reader.samekey).to.equal('first value and a new value too')
-  })
+	it("gets first line", function () {
+		const array = new SharedFileView.ArrayFrom(testFilePath);
+		expect(array[0]).to.equal("6wjZagsBmTxY3xeMc4brVplX");
+	});
+	it("gets second line", function () {
+		const array = new SharedFileView.ArrayFrom(testFilePath);
+		expect(array[1]).to.equal("bWw4FBK0iKnncEPDcz7weEMwZpxy2gkNdx3lc");
+	});
+	it("gets last line", function () {
+		const array = new SharedFileView.ArrayFrom(testFilePath);
+		expect(array[array.length - 1]).to.equal("mvkref3kq5VwOcCusoeOD2KJN6poRYFmN5WCr");
+	});
+	it("gets a line before allowed range", function () {
+		const array = new SharedFileView.ArrayFrom(testFilePath);
+		expect(array[-1]).to.be.undefined;
+	});
+	it("gets a line after allowed range", function () {
+		const array = new SharedFileView.ArrayFrom(testFilePath);
+		expect(array[array.length]).to.be.undefined;
+	});
+});
 
-  it('reads a number', function () {
-    expect(this.reader.second).to.equal(0.207879576)
-  })
-  it('reads large data', function () {
-    const bigKey = new Array(BigKeySize).join('fourty-nine thousand nine hundred fifty bytes long')
-    const bigValue = new Array(BiggerKeySize).join('six hundred seventy nine thousand nine hundred thirty two bytes long')
-    expect(this.reader[bigKey]).to.equal(bigValue)
-  })
-})
-         
+describe("Static functions from another process", function () {
+	it("it exists", function () {
+		expect(SharedFileView.Exists(testFilePath)).to.be.true;
+	});
+	it("it removes", function (done) {
+		SharedFileView.Remove(testFilePath, (err) => {
+			expect(SharedFileView.Exists(testFilePath)).to.be.false;
+			done(err);
+		});
+	});
+});
