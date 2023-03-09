@@ -84,7 +84,7 @@ SharedFileView is licensed under the [MIT License](https://opensource.org/licens
 
 ## Credits
 
-SharedFileView is built upon the work of several open-source projects and contributors. We would like to thank the following individuals and organizations for their contributions to SharedFileView:
+I would like to thank the following individuals for their contributions to SharedFileView:
 
 - Seth Heeren ([@sehe](https://github.com/sehe)), for providing the original approach that underlie SharedFileView.
 - Allen Luce ([@allenluce](https://github.com/allenluce)), for creating the [`mmap-object`](https://github.com/allenluce/mmap-object) package that inspired SharedFileView.
