@@ -15,6 +15,13 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Build Boost
+        uses: egor-tensin/build-boost@v1
+        id: boost
+        with:
+          version: 1.81.0
+          libraries: filesystem iostreams interprocess
+          configuration: Release
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node }}
