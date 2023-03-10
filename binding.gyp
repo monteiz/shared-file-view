@@ -12,8 +12,8 @@
             # "<!(node -e \"require('nan')\")",
             "./node_modules/nan",
             # used by github workflows
-            "<!(echo steps.boost.outputs.librarydir)",
-            "<!(echo steps.boost.outputs.root)",
+            "/Users/runner/work/shared-file-view/boost",
+            "/Users/runner/work/shared-file-view/boost/stage/x64/Release/lib",
 
 
         ],
