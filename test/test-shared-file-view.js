@@ -12,22 +12,8 @@ const os = require("os");
 const which = require("which");
 const async = require("async");
 
-const methods = [
-	"isOpen",
-	"close",
-	"valueOf",
-	"toString",
-	"close",
-	"get_free_memory",
-	"get_size",
-	"bucket_count",
-	"max_bucket_count",
-	"load_factor",
-	"max_load_factor",
-	"propertyIsEnumerable",
-];
-
 const testFilePath = path.join(__dirname, "..", "testdata", "random_strings.txt");
+console.log(testFilePath);
 
 describe("shared-file-view", function () {
 	before(function () {
