@@ -11,7 +11,9 @@
             # "/usr/local/include",
             # "<!(node -e \"require('nan')\")",
             "./node_modules/nan",
-            "/home/runner/work/shared-file-view/boost"  # used by github workflows
+            "/home/runner/work/shared-file-view/boost",  # used by github workflows
+            # used by github workflows
+            "/Users/runner/work/shared-file-view/boost/stage/x64/Release/lib",
         ],
         "libraries": [],
         "OTHER_CFLAGS": [  # for Mac builds
