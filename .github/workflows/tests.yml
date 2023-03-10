@@ -46,7 +46,8 @@ jobs:
         run: npx envinfo
       - name: Run Node tests
         run: |
-          # ls /home/runner/work/shared-file-view/shared-file-view
+          echo ${BOOST_ROOT}
+          echo ${BOOST_LIBRARYDIR}
           npm test
         env:
           BOOST_ROOT: ${{ steps.boost.outputs.root }}
