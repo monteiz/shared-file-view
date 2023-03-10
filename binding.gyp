@@ -41,7 +41,8 @@
                         # "libboost_filesystem",
                         # "-L<!(echo ${BOOST_LIBRARYDIR})/"
                         # "-Wl,-rpath,<!(pwd)/build/Release/"
-                        # "-Wl,-rpath,<!(echo ${BOOST_LIBRARYDIR})"
+                        # "-llibboost_filesystem",
+                        # "-L<!(echo ${BOOST_LIBRARYDIR})",
                     ]
                 }
             }
