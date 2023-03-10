@@ -9,8 +9,8 @@ __asm__(".symver memcpy,memcpy@GLIBC_2.2.5");
 #endif
 #endif
 #endif
-#include <boost/unordered_map.hpp>
 #include <boost/version.hpp>
+#include <boost/unordered_map.hpp>
 #include <boost/interprocess/shared_memory_object.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 #include <boost/filesystem.hpp>
