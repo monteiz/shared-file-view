@@ -33,7 +33,8 @@ jobs:
       - name: Install Dependencies
         run: |
           echo ${{ steps.boost.outputs.root }}
-          ls ${{ steps.boost.outputs.root }}
+          echo ${{ steps.boost.outputs.librarydir }}
+          # ls ${{ steps.boost.outputs.root }}
           npm install --no-progress
         env:
           BOOST_ROOT: ${{ steps.boost.outputs.root }}
