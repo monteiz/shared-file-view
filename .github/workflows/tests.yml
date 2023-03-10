@@ -50,7 +50,8 @@ jobs:
           # sudo find ~ -name libboost_filesystem*
           # echo ${BOOST_ROOT}
           # echo ${BOOST_LIBRARYDIR}
-          export LD_LIBRARY_PATH=${{ steps.boost.outputs.librarydir }} && npm test
+          install_name_tool -add_rpath ${{ steps.boost.outputs.librarydir }} lib/shared-file-view.node 
+          npm test
         env:
           BOOST_ROOT: ${{ steps.boost.outputs.root }}
           BOOST_LIBRARYDIR: ${{ steps.boost.outputs.librarydir }}
