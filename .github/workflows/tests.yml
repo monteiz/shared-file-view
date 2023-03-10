@@ -33,7 +33,7 @@ jobs:
       - name: Install Dependencies
         run: |
           echo ${{ steps.boost.outputs.root }}
-          ls /home/runner/work/shared-file-view/boost
+          ls ${{ steps.boost.outputs.root }}
           npm install --no-progress
         env:
           BOOST_ROOT: ${{ steps.boost.outputs.root }}
