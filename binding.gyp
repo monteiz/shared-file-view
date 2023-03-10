@@ -1,5 +1,8 @@
 {
     "variables": {
+        "ldflags": [
+            "-Wl,-rpath,<!(echo ${BOOST_LIBRARYDIR})"
+        ],
         "cflags_cc": [
             "-Wall",
             # "-Werror",

@@ -46,9 +46,10 @@ jobs:
         run: npx envinfo
       - name: Run Node tests
         run: |
-          sudo find ~ -name libboost_filesystem*
-          echo ${BOOST_ROOT}
-          echo ${BOOST_LIBRARYDIR}
+          sudo ldconfig
+          # sudo find ~ -name libboost_filesystem*
+          # echo ${BOOST_ROOT}
+          # echo ${BOOST_LIBRARYDIR}
           npm test
         env:
           BOOST_ROOT: ${{ steps.boost.outputs.root }}
