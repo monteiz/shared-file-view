@@ -34,8 +34,8 @@ jobs:
         run: |
           npm install --no-progress
         env:
-          BOOST_ROOT: ${{ steps.boost.outputs.root }}
-          BOOST_LIBRARYDIR: ${{ steps.boost.outputs.librarydir }}
+          BOOST_ROOT: ${{ runner.workspace }}/boost
+          BOOST_LIBRARYDIR: ${{ runner.workspace }}/boost
       - name: Environment Information
         run: npx envinfo
       - name: Run Node tests
