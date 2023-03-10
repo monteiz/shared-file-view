@@ -48,3 +48,7 @@ jobs:
         run: |
           ls /home/runner/work/shared-file-view/shared-file-view
           npm test
+        env:
+          BOOST_ROOT: ${{ steps.boost.outputs.root }}
+          BOOST_LIBRARYDIR: ${{ steps.boost.outputs.librarydir }}
+          DYLD_LIBRARY_PATH: ${{ steps.boost.outputs.librarydir }}
