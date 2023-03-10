@@ -8,14 +8,9 @@
             "-frtti"         # And this too.
         ],
         "include_dirs": [
-            # "/usr/local/include",
-            # "<!(node -e \"require('nan')\")",
             "./node_modules/nan",
-            # used by github workflows
-            "/home/runner/work/shared-file-view/boost",
-            "/Users/runner/work/shared-file-view/boost/stage/x64/Release/include",
+
         ],
-        "libraries": ["/Users/runner/work/shared-file-view/boost/stage/x64/Release/lib", "/home/runner/work/shared-file-view/boost/stage/x64/Release/lib"],
         "OTHER_CFLAGS": [  # for Mac builds
             "-Wno-unused-local-typedefs"
         ]
@@ -37,7 +32,7 @@
                         "<!(echo ${BOOST_ROOT})"
                     ],
                     "libraries": [
-                        "<!(echo ${DYLD_LIBRARY_PATH}/libboost_filesystem.dylib)"
+                        "<!(echo ${BOOST_LIBRARYDIR}/libboost_filesystem.dylib)"
                         # "/usr/local/opt/boost_1_81_0"
                     ]
                 }
