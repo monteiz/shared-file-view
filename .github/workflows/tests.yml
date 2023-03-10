@@ -32,10 +32,11 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Install Dependencies
         run: |
+          echo ${{ steps.boost.outputs.root }}
           npm install --no-progress
         env:
-          BOOST_ROOT: ${{ runner.workspace }}/boost
-          BOOST_LIBRARYDIR: ${{ runner.workspace }}/boost
+          BOOST_ROOT: ${{ steps.boost.outputs.root }}
+          BOOST_LIBRARYDIR: ${{ steps.boost.outputs.librarydir }}
       - name: Environment Information
         run: npx envinfo
       - name: Run Node tests
