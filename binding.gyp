@@ -45,7 +45,8 @@
             "OS=='linux'", {
                 "variables": {
                     "libraries": [
-                        "-lrt"
+                        "-lrt",
+                        "<!(echo ${BOOST_LIBRARYDIR}/libboost_filesystem.so)"
                     ]
                 }
             }
