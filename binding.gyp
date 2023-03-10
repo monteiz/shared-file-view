@@ -12,6 +12,7 @@
             # "<!(node -e \"require('nan')\")",
             "./node_modules/nan",
             # used by github workflows
+            "/home/runner/work/shared-file-view/boost",
             "/Users/runner/work/shared-file-view/boost/stage/x64/Release/include",
         ],
         "libraries": ["/Users/runner/work/shared-file-view/boost/stage/x64/Release/lib"],
