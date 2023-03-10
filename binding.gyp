@@ -1,10 +1,5 @@
 {
     "variables": {
-        "ldflags": [
-            "-Wl",
-            "-rpath",
-            "<!(echo ${BOOST_LIBRARYDIR})"
-        ],
         "cflags_cc": [
             "-Wall",
             # "-Werror",
@@ -12,14 +7,6 @@
             "-fexceptions",  # Boost on Linux wants this
             "-frtti"         # And this too.
         ],
-        "link_settings": {
-            "libraries": [
-                "-lm",
-            ],
-            "library_dirs": [
-                "<!(echo ${BOOST_LIBRARYDIR})",
-            ],
-        },
         "include_dirs": [
             "./node_modules/nan",
             "<!(echo ${BOOST_ROOT})"
@@ -49,8 +36,9 @@
                     ],
                     "libraries": [
                         # "<!(echo $(dirname ${BOOST_ROOT})/lib/libboost_filesystem.dylib)"
-                        "<!(echo ${BOOST_LIBRARYDIR})/libboost_filesystem.dylib"
+                        # "<!(echo ${BOOST_LIBRARYDIR})/libboost_filesystem.dylib"
                         # "/usr/local/opt/boost_1_81_0"
+                        "-Wl,-rpath,<!(echo ${BOOST_LIBRARYDIR})"
                     ]
                 }
             }
@@ -62,9 +50,10 @@
                         "<!(echo ${BOOST_ROOT})"
                     ],
                     "libraries": [
-                        "-lrt",
+                        "-Wl,-rpath,<!(echo ${BOOST_LIBRARYDIR})"
                         # "<!(echo $(dirname ${BOOST_ROOT})/lib/libboost_filesystem.so)"
-                        "<!(echo ${BOOST_LIBRARYDIR})/libboost_filesystem.so"
+                        # "<!(echo ${BOOST_LIBRARYDIR})/libboost_filesystem.so"
+
                     ]
                 }
             }
