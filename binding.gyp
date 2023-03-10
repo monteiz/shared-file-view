@@ -13,9 +13,6 @@
             "./node_modules/nan",
             # used by github workflows
             "/Users/runner/work/shared-file-view/boost/stage/x64/Release/include",
-            ,
-
-
         ],
         "libraries": ["/Users/runner/work/shared-file-view/boost/stage/x64/Release/lib"],
         "OTHER_CFLAGS": [  # for Mac builds
