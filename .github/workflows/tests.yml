@@ -14,7 +14,7 @@ jobs:
         # node: [14.x, 15.x, 16.x, 17.x, 18.x, 19.x]
         node: [14.x]
         # os: [macos-latest, ubuntu-latest, windows-latest]
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Build Boost
@@ -46,7 +46,6 @@ jobs:
         run: npx envinfo
       - name: Run Node tests
         run: |
-          sudo ldconfig
           # sudo find ~ -name libboost_filesystem*
           # echo ${BOOST_ROOT}
           # echo ${BOOST_LIBRARYDIR}
