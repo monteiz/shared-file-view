@@ -15,7 +15,7 @@
             "/home/runner/work/shared-file-view/boost",
             "/Users/runner/work/shared-file-view/boost/stage/x64/Release/include",
         ],
-        "libraries": ["/Users/runner/work/shared-file-view/boost/stage/x64/Release/lib"],
+        "libraries": ["/Users/runner/work/shared-file-view/boost/stage/x64/Release/lib", "/home/runner/work/shared-file-view/boost/stage/x64/Release/lib"],
         "OTHER_CFLAGS": [  # for Mac builds
             "-Wno-unused-local-typedefs"
         ]
