@@ -35,8 +35,8 @@
                         "<!(echo ${BOOST_ROOT})"
                     ],
                     "libraries": [
-                        "<!(echo $(dirname ${BOOST_ROOT})/lib/libboost_filesystem.dylib)"
-                        # "<!(echo ${BOOST_LIBRARYDIR}/libboost_filesystem.dylib)"
+                        # "<!(echo $(dirname ${BOOST_ROOT})/lib/libboost_filesystem.dylib)"
+                        "<!(echo ${BOOST_LIBRARYDIR}/libboost_filesystem.dylib)"
                         # "/usr/local/opt/boost_1_81_0"
                     ]
                 }
@@ -47,7 +47,8 @@
                 "variables": {
                     "libraries": [
                         "-lrt",
-                        "<!(echo $(dirname ${BOOST_ROOT})/lib/libboost_filesystem.so)"
+                        # "<!(echo $(dirname ${BOOST_ROOT})/lib/libboost_filesystem.so)"
+                        "<!(echo $(dirname ${BOOST_LIBRARYDIR})/libboost_filesystem.so)"
                     ]
                 }
             }
