@@ -46,8 +46,7 @@ jobs:
         run: npx envinfo
       - name: Run Node tests
         run: |
-          sudo find / -name libboost_filesystem.dylib
-          sudo find / -name libboost_filesystem.so
+          sudo find ~ -name libboost_filesystem*
           echo ${BOOST_ROOT}
           echo ${BOOST_LIBRARYDIR}
           npm test
