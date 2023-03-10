@@ -45,4 +45,6 @@ jobs:
       - name: Environment Information
         run: npx envinfo
       - name: Run Node tests
-        run: npm test
+        run: |
+          ls /home/runner/work/shared-file-view/shared-file-view
+          npm test
