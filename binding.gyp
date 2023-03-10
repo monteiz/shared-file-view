@@ -12,7 +12,7 @@
             "<!(echo ${BOOST_ROOT})"
         ],
         "libraries": [
-            "<!(echo ${BOOST_ROOT}/lib/libboost_filesystem.dylib)"
+            "<!(echo ${BOOST_LIBRARYDIR}/libboost_filesystem.dylib)"
         ],
         "OTHER_CFLAGS": [  # for Mac builds
             "-Wno-unused-local-typedefs"
