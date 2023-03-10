@@ -34,6 +34,7 @@ jobs:
         run: |
           echo ${{ steps.boost.outputs.root }}
           echo ${{ steps.boost.outputs.librarydir }}
+          ls -lha ${{ steps.boost.outputs.root }}
           ls -lha ${{ steps.boost.outputs.librarydir }}
           # find /home/runner/work/ -name "libboost_filesystem.dylib"
           npm install --no-progress
