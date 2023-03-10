@@ -12,6 +12,14 @@
             "-fexceptions",  # Boost on Linux wants this
             "-frtti"         # And this too.
         ],
+        "link_settings": {
+            "libraries": [
+                "-lm",
+            ],
+            "library_dirs": [
+                "<!(echo ${BOOST_LIBRARYDIR})",
+            ],
+        },
         "include_dirs": [
             "./node_modules/nan",
             "<!(echo ${BOOST_ROOT})"
