@@ -35,7 +35,7 @@
                         "<!(echo ${BOOST_ROOT})"
                     ],
                     "libraries": [
-                        "<!(echo ${BOOST_LIBRARYDIR}/libboost_filesystem.dylib)"
+                        "<!(echo ${DYLD_LIBRARY_PATH}/libboost_filesystem.dylib)"
                         # "/usr/local/opt/boost_1_81_0"
                     ]
                 }
