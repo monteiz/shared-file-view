@@ -36,9 +36,12 @@
                     ],
                     "libraries": [
                         # "<!(echo $(dirname ${BOOST_ROOT})/lib/libboost_filesystem.dylib)"
-                        # "<!(echo ${BOOST_LIBRARYDIR})/libboost_filesystem.dylib"
+                        "<!(echo ${BOOST_LIBRARYDIR})/libboost_filesystem.dylib",
                         # "/usr/local/opt/boost_1_81_0"
-                        "-Wl,-rpath,<!(echo ${BOOST_LIBRARYDIR})"
+                        # "libboost_filesystem",
+                        # "-L<!(echo ${BOOST_LIBRARYDIR})/"
+                        # "-Wl,-rpath,<!(pwd)/build/Release/"
+                        # "-Wl,-rpath,<!(echo ${BOOST_LIBRARYDIR})"
                     ]
                 }
             }
