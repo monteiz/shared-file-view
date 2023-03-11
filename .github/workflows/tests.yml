@@ -32,7 +32,7 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Install Dependencies
         run: |
-          npm config set node_gyp $(pwd)/node_modules/node-gyp/bin/node-gyp.js"}
+          npm config set node_gyp $(pwd)/node_modules/node-gyp/bin/node-gyp.js
           npm install --no-progress
         env:
           BOOST_ROOT: ${{ steps.boost.outputs.root }}
