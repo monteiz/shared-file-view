@@ -36,9 +36,7 @@ jobs:
       - name: Pre-Install Dependencies
         if: ${{ matrix.node != '14.x' }}
         run: npm explore npm/node_modules/@npmcli/run-script -g -- npm_config_global=false npm install node-gyp@latest
-        if: ${{ matrix.node == '14.x' }}
-        echo Nothing to do.
-        
+
       - name: Install Dependencies
         run: npm install --no-progress
         env:
