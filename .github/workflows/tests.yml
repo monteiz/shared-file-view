@@ -30,15 +30,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-      - name: Install Dependencies
-        if: matrix.os == "macos-latest" || matrix.os == "ubuntu-latest" && matrix.node == "14.x"
-        run: |
-          npm install --no-progress
-        if: matrix.os == "macos-latest" || matrix.os == "ubuntu-latest" && matrix.node != "14.x"
+      - name: Instruct npm to use the local version of node-gyp
         run: |
           npm explore npm/node_modules/@npmcli/run-script -g -- npm_config_global=false npm install node-gyp@latest
-          npm install --no-progress
+        if: matrix.os == "macos-latest" || matrix.os == "ubuntu-latest" && matrix.node != "14.x"
 
+      - name: Install Dependencies
+        run: |
+          npm install --no-progress
         env:
           BOOST_ROOT: ${{ steps.boost.outputs.root }}
           BOOST_LIBRARYDIR: ${{ steps.boost.outputs.librarydir }}
