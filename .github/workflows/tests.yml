@@ -32,7 +32,7 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Instruct npm to use the local version of node-gyp
         run: npm explore npm/node_modules/@npmcli/run-script -g -- npm_config_global=false npm install node-gyp@latest
-        if: ${{ matrix.os == "macos-latest" || matrix.os == "ubuntu-latest" && matrix.node != "14.x" }}
+        # if: ${{ matrix.os == "macos-latest" || matrix.os == "ubuntu-latest" && matrix.node != "14.x" }}
 
       - name: Install Dependencies
         run: |
@@ -46,9 +46,6 @@ jobs:
         run: npx envinfo
       - name: Run Node tests
         run: |
-          # sudo find ~ -name libboost_filesystem*
-          # echo ${BOOST_ROOT}
-          # echo ${BOOST_LIBRARYDIR}
           install_name_tool -add_rpath ${{ steps.boost.outputs.librarydir }} lib/shared-file-view.node 
           npm test
         env:
