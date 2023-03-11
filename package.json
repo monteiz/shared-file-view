@@ -8,8 +8,10 @@
 	},
 	"binary": {
 		"module_name": "shared-file-view",
-		"module_path": "./lib",
-		"host": "https://github.com/monteiz/shared-file-view/releases/download/{version}"
+		"module_path": "./lib"
+	},
+	"engines": {
+		"node": ">=14.0.0"
 	},
 	"version": "1.0.4",
 	"author": "Luca Fagioli <monteiz@gmail.com>",
