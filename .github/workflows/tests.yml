@@ -11,8 +11,8 @@ jobs:
       fail-fast: false
       max-parallel: 15
       matrix:
-        node: [14.x, 15.x, 16.x, 17.x, 18.x, 19.x]
-        # node: [14.x]
+        # node: [14.x, 15.x, 16.x, 17.x, 18.x, 19.x]
+        node: [14.x, 15.x]
         # os: [macos-latest, ubuntu-latest, windows-latest]
         os: [macos-latest]
     runs-on: ${{ matrix.os }}
@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Instruct npm to use the local version of node-gyp
-        if: ${{ matrix.node > '14' }}
+        if: ${{ matrix.node | replace('.x', '') | int > 14 }}
         run: npm explore npm/node_modules/@npmcli/run-script -g -- npm_config_global=false npm install node-gyp@latest
 
       - name: Install Dependencies
