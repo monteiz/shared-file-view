@@ -1,6 +1,6 @@
 # Shared File View
 
-![Tests passing](https://github.com/monteiz/shared-file-view/actions/workflows/tests.yml/badge.svg)
+![Tests passing](https://github.com/monteiz/shared-file-view/actions/workflows/test.yml/badge.svg)
 [![NPM version](https://badge.fury.io/js/shared-file-view.svg)](https://badge.fury.io/js/shared-file-view)
 
 SharedFileView is a Node.js add-on that loads a file into a shared memory segment, **allowing multiple processes to access the same memory data** quickly and efficiently, as a JavaScript array. The returned array is read-only.
