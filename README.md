@@ -9,9 +9,9 @@ SharedFileView is designed for speed and minimal memory usage. By using shared m
 
 ## Requirements
 
-Boost libraries (^1.81) installed on the system. Installation will fail otherwise.
+It is necessary to have the Boost libraries version 1.81 or higher installed on the system. Failure to have the required libraries installed will result in installation failure.
 
-Follow [this guide](https://www.boost.org/doc/libs/1_81_0/more/getting_started/index.html) to install it.
+To install the Boost libraries, please follow the instructions outlined in [this guide](https://www.boost.org/doc/libs/1_81_0/more/getting_started/index.html). Ensure that the environment variables `BOOST_ROOT` and `BOOST_LIBRARYDIR` are correctly configured for the installation to proceed smoothly.
 
 ## Installation
 
